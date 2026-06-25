@@ -63,13 +63,14 @@ def download_hf_datasets():
         print(f"\n  -> {name} ({size})")
         t0 = time.time()
         try:
-            ds = load_dataset(name)
+            # POPRAWKA DLA PYTHONA 3.7 (starsza wersja biblioteki datasets)
+            ds = load_dataset(name, ignore_verifications=True)
             elapsed = time.time() - t0
             sizes = {split: len(ds[split]) for split in ds.keys()}
-            print(f"     OK ({elapsed:.1f}s) | splits: {sizes}")
+            print(f"    OK ({elapsed:.1f}s) | splits: {sizes}")
             fetched[name] = ds
         except Exception as e:
-            print(f"     FAIL: {type(e).__name__}: {e}")
+            print(f"    FAIL: {type(e).__name__}: {e}")
             sys.exit(1)
     return fetched
 
